@@ -5,50 +5,50 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const gridSize = 10;
   const caseSize = 50;
-  const socketRef = useRef(null); // Utiliser useRef pour maintenir la référence de socket
+  const socketRef = useRef(null); 
+  const [validPositions, setValidPositions] = useState([]);
+  const [elapsedTime, setElapsedTime] = useState(0);
 
 
   const connectWebSocket = () => {
-    // Établir la connexion WebSocket ici
     socketRef.current = new WebSocket("ws://localhost:8080/game-socket");
-
+  
     socketRef.current.onopen = () => {
       console.log("WebSocket connection established");
-      socketRef.current.send("GET_INITIAL_POSITION");
+      socketRef.current.send("START"); // Demande à la fois la position initiale et le chemin
     };
-
+  
     socketRef.current.onmessage = (event) => {
       console.log("Message from server", event.data);
-      const newPosition = parsePositionFromResponse(event.data);
-      setPosition(newPosition);
-    };
-    
-    socketRef.current.onopen = () => {
-      // Demander le chemin après l'établissement de la connexion
-      socketRef.current.send("GET_PATH");
-    };
-    socketRef.current.onmessage = (event) => {
-      console.log("Message from server", event.data);
-      if (event.data.startsWith("Path:")) {
-        const path = event.data.substring(5);
-        const positions = path.split(";").map(p => {
-          const [x, y] = p.split(",").map(Number);
-          return { x, y };
-        });
-      } else {
-        const newPosition = parsePositionFromResponse(event.data);
+      if (event.data.startsWith("Nouvelle position:") || event.data.startsWith("Initial position:")) {
+        const newPosition = parsePositionFromResponse(event.data.substring("Initial position:".length));
         setPosition(newPosition);
-      }
+      } else if (event.data.startsWith("Path:")) {
+        const pathData = event.data.substring("Path:".length);
+        const positions = JSON.parse(pathData).map(pos => ({
+          x: pos.x,
+          y: gridSize - 1 - pos.y // Ajuster chaque y pour l'inversion
+      }));
+    setValidPositions(positions);
+    } else if (event.data.startsWith("Victory:")) {
+      alert("Victoire !");
+    } else if (event.data.startsWith("Defeat:")) {
+      alert("Défaite !");
+    } else if (event.data.startsWith("ElapsedTime:")) {
+      const time = parseInt(event.data.split(":")[1].trim(), 10);
+      setElapsedTime(time);
+    }
     };
-
+  
     socketRef.current.onclose = () => {
       console.log("WebSocket connection closed");
-      setIsConnected(false); // Mettre à jour l'état de connexion
+      setIsConnected(false);
     };
-
-    setIsConnected(true); // Mettre à jour l'état de connexion après l'ouverture
+  
+    setIsConnected(true);
   };
-
+  
+  
   const handleConnectClick = () => {
     if (!isConnected) {
       connectWebSocket();
@@ -82,12 +82,16 @@ function App() {
   const parsePositionFromResponse = (responseBody) => {
     const match = responseBody.match(/X=(\d+), Y=(\d+)/);
     if (match) {
-      return { x: parseInt(match[1], 10), y: parseInt(match[2], 10) };
+      return {
+        x: parseInt(match[1], 10),
+        y: parseInt(match[2], 10)
+      };
     }
     return { x: 0, y: 0 };
   };
-
   
+
+
   const renderGrid = () => {
     let grid = [];
     // Inverser l'ordre des lignes pour que y=0 soit en bas
@@ -95,9 +99,8 @@ function App() {
       let row = [];
       // Générer les colonnes normalement
       for (let x = 0; x < gridSize; x++) {
-        // Utiliser directement la position.x et inverser la logique pour position.y
-        // car l'ordre des lignes est déjà inversé
         let isLetterPosition = x === position.x && y === position.y;
+        let isValidPosition = validPositions.some(pos => pos.x === x && pos.y === (gridSize - 1 - y)); // Vérifiez si la position actuelle est une position valide
         row.push(
           <div
             key={`${x},${y}`}
@@ -108,10 +111,11 @@ function App() {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              color: 'red', // Couleur de la lettre
+              color: isLetterPosition ? 'red' : 'black', // Couleur de la lettre ou du texte
+              backgroundColor: isValidPosition ? 'green' : 'transparent', // Changez la couleur de fond pour les positions valides
               margin: '2px', // Marge entre les cases
             }}>
-            {isLetterPosition ? 'A' : ''}
+            {isLetterPosition ? 'X' : ''}
           </div>
         );
       }
@@ -121,12 +125,13 @@ function App() {
     // Puisque l'ordre des lignes est inversé, afficher directement la grille construite
     return <div style={{ display: 'flex', flexDirection: 'column' }}>{grid}</div>;
   };
-  
+    
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
       {!isConnected && <button onClick={handleConnectClick}>GO</button>}
       {renderGrid()}
+      <div>Temps écoulé: {elapsedTime} secondes</div>
     </div>
   );
 }
