@@ -13,10 +13,31 @@
     backdrop-filter: blur(5px); 
   }
   
+  .modal-content{
+    background-color:white;
+    padding: 45px;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .modal-title{
+    color: rgba(0, 173, 218, 1);
+    font-size: 30px;
+  }
   
-  .modal-content {
+  .modal-perdre {
+    background-color:white;
+    padding: 45px;
+    color: rgb(189, 44, 44);
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .modal-victoire{
+    margin : 20px;
     background-color: white;
-    padding: 20px;
+    color: #85BC54;
+    padding: 45px;
     border-radius: 5px;
     text-align: center;
   }
@@ -26,6 +47,10 @@
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    border-radius: 5px;
+    color:rgba(251, 171, 41, 1);
+    background-color: rgba(251, 170, 41, 0.411);
+    border-color: rgba(251, 171, 41, 1);
   }
 
 .grid-cell {
@@ -99,6 +124,11 @@
     padding: 10px 20px;
     border-radius: 5px;
     z-index: 1010;
+  }
+
+  .logo{
+    width: 150px;
+    height: 150px;
   }
   
 
