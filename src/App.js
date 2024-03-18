@@ -175,11 +175,14 @@ function App() {
 
   return (
     <div className='App-page' >
-      <h2 className='App-header'> VroomVroom </h2>
+      <div className='App-header'>
+        <img src={logo} alt="Logo" className='logo-title' />
+        <h2> VroomVroom </h2>
+      </div>
       {!isConnected && <Modal onStartClick={handleConnectClick} />}
       {gameStatus === "victory" && <VictoryModal onRestart={handleRestart} />}
       {gameStatus === "defeat" && <DefeatModal onRestart={handleRestart} />}
-      {showPenalty && <div className="penalty-message">Pénalité de 1 seconde !</div>}
+      {showPenalty && <div className="penalty-message">+ 1 seconde !</div>}
       <div className='time'>Temps écoulé: {elapsedTime} secondes</div>
       {renderGrid()}
       

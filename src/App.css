@@ -54,8 +54,8 @@
   }
 
 .grid-cell {
-    width: 60px; 
-    height: 60px;
+    width: 50px; 
+    height: 50px;
     border: 1px solid black;
     display: flex;
     justify-content: center;
@@ -95,6 +95,8 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    font-size: 20px;
+    color:85BC54;
   }
 
   .App-page{
@@ -107,17 +109,22 @@
   }
 
   .App-header{
+    flex-direction: row;
+    align-items: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5px;
+    margin-top: 0;
     margin-bottom: 20px;
+    color: rgba(20, 173, 143, 1);
+    font-size: 24px;
   }
+
 
   .penalty-message {
     position: absolute;
-    top: 20px;
-    left: 50%;
+    top: 110px;
+    left: 64%;
     transform: translateX(-50%);
     background-color: rgba(255, 0, 0, 0.8);
     color: white;
@@ -131,5 +138,9 @@
     height: 150px;
   }
   
-
-  
+  .logo-title{
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+  }
+ 
