@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css'; 
 import voiture from './voiture.png';
+import logo from './logo_app.png';
 
 function App() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -116,7 +117,8 @@ function App() {
   const Modal = ({ onStartClick }) => (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Prêt?</h2>
+        <img src={logo} alt="Logo" className='logo' />
+        <h2 className='modal-title'>Bienvenue dans VroomVroom !</h2>
         <p>Il faut faire le parcours en moins de 10 seconde,</p>
         <p>Prêt, feu, partez !</p>
         <button onClick={onStartClick}>GO</button>
@@ -126,8 +128,9 @@ function App() {
 
   const VictoryModal = ({ onRestart }) => (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-victoire">
         <h2>Victoire !</h2>
+        <p>Bravo ! vous avez gagné !</p>
         <button onClick={onRestart}>Rejouer</button>
       </div>
     </div>
@@ -135,8 +138,9 @@ function App() {
   
   const DefeatModal = ({ onRestart }) => (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-perdre">
         <h2>Défaite !</h2>
+        <p>Dommage... Prenez votre revanche et rejouez !</p>
         <button onClick={onRestart}>Rejouer</button>
       </div>
     </div>
@@ -171,11 +175,14 @@ function App() {
 
   return (
     <div className='App-page' >
-      <h2 className='App-header'> VroomVroom </h2>
+      <div className='App-header'>
+        <img src={logo} alt="Logo" className='logo-title' />
+        <h2> VroomVroom </h2>
+      </div>
       {!isConnected && <Modal onStartClick={handleConnectClick} />}
       {gameStatus === "victory" && <VictoryModal onRestart={handleRestart} />}
       {gameStatus === "defeat" && <DefeatModal onRestart={handleRestart} />}
-      {showPenalty && <div className="penalty-message">Pénalité de 1 seconde !</div>}
+      {showPenalty && <div className="penalty-message">+ 1 seconde !</div>}
       <div className='time'>Temps écoulé: {elapsedTime} secondes</div>
       {renderGrid()}
       

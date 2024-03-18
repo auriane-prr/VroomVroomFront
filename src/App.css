@@ -13,10 +13,31 @@
     backdrop-filter: blur(5px); 
   }
   
+  .modal-content{
+    background-color:white;
+    padding: 45px;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .modal-title{
+    color: rgba(0, 173, 218, 1);
+    font-size: 30px;
+  }
   
-  .modal-content {
+  .modal-perdre {
+    background-color:white;
+    padding: 45px;
+    color: rgb(189, 44, 44);
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .modal-victoire{
+    margin : 20px;
     background-color: white;
-    padding: 20px;
+    color: #85BC54;
+    padding: 45px;
     border-radius: 5px;
     text-align: center;
   }
@@ -26,11 +47,15 @@
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    border-radius: 5px;
+    color:rgba(251, 171, 41, 1);
+    background-color: rgba(251, 170, 41, 0.411);
+    border-color: rgba(251, 171, 41, 1);
   }
 
 .grid-cell {
-    width: 60px; 
-    height: 60px;
+    width: 50px; 
+    height: 50px;
     border: 1px solid black;
     display: flex;
     justify-content: center;
@@ -70,6 +95,8 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    font-size: 20px;
+    color:85BC54;
   }
 
   .App-page{
@@ -82,17 +109,22 @@
   }
 
   .App-header{
+    flex-direction: row;
+    align-items: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5px;
+    margin-top: 0;
     margin-bottom: 20px;
+    color: rgba(20, 173, 143, 1);
+    font-size: 24px;
   }
+
 
   .penalty-message {
     position: absolute;
-    top: 20px;
-    left: 50%;
+    top: 110px;
+    left: 64%;
     transform: translateX(-50%);
     background-color: rgba(255, 0, 0, 0.8);
     color: white;
@@ -100,6 +132,15 @@
     border-radius: 5px;
     z-index: 1010;
   }
-  
 
+  .logo{
+    width: 150px;
+    height: 150px;
+  }
+  
+  .logo-title{
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+  }
   
