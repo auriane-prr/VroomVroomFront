@@ -14,8 +14,6 @@ function App() {
   const [gameStatus, setGameStatus] = useState("");
   const [showPenalty, setShowPenalty] = useState(false);
 
-
-
   const connectWebSocket = () => {
     socketRef.current = new WebSocket("ws://localhost:8080/game-socket");
   
@@ -26,9 +24,9 @@ function App() {
   
     socketRef.current.onmessage = (event) => {
       console.log("Message from server", event.data);
-
       if (event.data.startsWith("New position:") || event.data.startsWith("Initial position:")) {
-        const newPosition = parsePositionFromResponse(event.data.substring("Initial position:".length));
+        const prefix = event.data.startsWith("New position:") ? "New position:" : "Initial position:";
+        const newPosition = parsePositionFromResponse(event.data.substring(prefix.length));
         setPosition(newPosition);
       } else if (event.data.startsWith("Path:")) {
         const pathData = event.data.substring("Path:".length);
@@ -66,12 +64,11 @@ function App() {
     }
   };
 
-  useEffect(() => {
+  useEffect((carDirection) => {
     const handleKeyDown = (event) => {
       event.preventDefault();
       let direction;
       let rotation = carDirection;
-
       switch (event.key) {
         case 'ArrowUp': 
         direction = "UP"; 
@@ -93,12 +90,10 @@ function App() {
         
       }
       setCarDirection(rotation);
-
       if (socketRef.current) {
         socketRef.current.send(direction);
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isConnected]); 
@@ -171,7 +166,6 @@ function App() {
     }
     return <div style={{ display: 'flex', flexDirection: 'column' }}>{grid}</div>;
   };
-    
 
   return (
     <div className='App-page' >
@@ -184,12 +178,8 @@ function App() {
       {gameStatus === "defeat" && <DefeatModal onRestart={handleRestart} />}
       {showPenalty && <div className="penalty-message">+ 1 seconde !</div>}
       <div className='time'>Temps écoulé: {elapsedTime} secondes</div>
-      {renderGrid()}
-      
+      {renderGrid()}  
     </div>
   );
 }
-
-
-
 export default App;
