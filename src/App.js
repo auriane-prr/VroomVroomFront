@@ -27,7 +27,7 @@ function App() {
     socketRef.current.onmessage = (event) => {
       console.log("Message from server", event.data);
 
-      if (event.data.startsWith("Nouvelle position:") || event.data.startsWith("Initial position:")) {
+      if (event.data.startsWith("New position:") || event.data.startsWith("Initial position:")) {
         const newPosition = parsePositionFromResponse(event.data.substring("Initial position:".length));
         setPosition(newPosition);
       } else if (event.data.startsWith("Path:")) {
