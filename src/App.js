@@ -15,7 +15,7 @@ function App() {
   const [showPenalty, setShowPenalty] = useState(false);
 
   const connectWebSocket = () => {
-    socketRef.current = new WebSocket("ws://localhost:8080/game-socket");
+    socketRef.current = new WebSocket(" http://localhost:8080/game-socket");
   
     socketRef.current.onopen = () => {
       console.log("WebSocket connection established");

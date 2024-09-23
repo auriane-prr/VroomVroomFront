@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a8029ea7.css",
+    "main.js": "/static/js/main.792d6318.js",
+    "static/js/453.4624c8f8.chunk.js": "/static/js/453.4624c8f8.chunk.js",
+    "static/media/logo_app.png": "/static/media/logo_app.d7fb0cdefdb35144a5ad.png",
+    "static/media/voiture.png": "/static/media/voiture.3ba1632d223223929c05.png",
+    "index.html": "/index.html",
+    "main.a8029ea7.css.map": "/static/css/main.a8029ea7.css.map",
+    "main.792d6318.js.map": "/static/js/main.792d6318.js.map",
+    "453.4624c8f8.chunk.js.map": "/static/js/453.4624c8f8.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a8029ea7.css",
+    "static/js/main.792d6318.js"
+  ]
+}
